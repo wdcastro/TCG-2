@@ -1,0 +1,15 @@
+<div *ngFor="let player of gameoperator.currentSession.turnOrder; let i = index">
+
+<h1>Field {{i}} - {{gameoperator.field.actioncounts[i]}} - {{player}}</h1>
+Hand
+<div *ngFor="let card of gameoperator.field.hands[i]">{{card}}</div>
+<hr>
+Discard Pile
+<div *ngFor="let card of gameoperator.field.discardpile[i]">{{card}}</div>
+<hr>
+Defense Zone
+<div *ngFor="let card of gameoperator.field.defensezone[i]">{{card}}</div>
+<hr>
+Active Area
+<div *ngFor="let card of gameoperator.field.activecards[i]">{{card}}</div>
+</div>

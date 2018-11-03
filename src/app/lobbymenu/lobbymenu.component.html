@@ -1,0 +1,4 @@
+<input type="button" (click)="gameoperator.newSession()" value="new">
+<input #roomid value="roomID">
+<input type="button" (click)="gameoperator.joinSession($roomid.value)" value="join">
+<input type="button" (click)="gameoperator.startSession()" value="start">
