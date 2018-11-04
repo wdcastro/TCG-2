@@ -5,17 +5,32 @@
 <input type="button" (click)="gameoperator.startSession()" value="start">
 
 <div *ngFor="let player of gameoperator.gameState.turnOrder; let i = index">
-
+<div *ngIf="i != gameoperator.gameTicket.turnIndex">
 <h1>Field {{i}} - {{gameoperator.field.actioncounts[i]}} - {{player}} - {{gameoperator.field.hp[i]}} HP remaining</h1>
 Hand
-<div *ngFor="let card of gameoperator.field.hands[i]; let j = index" (click)="gameoperator.playCard('hand',i,j)">{{card.name}}</div>
+<div *ngFor="let card of gameoperator.field.hands[i]; let j = index" (click)="console.log('show info')">{{card.name}}</div>
 <hr>
 Discard Pile
 <div *ngFor="let card of gameoperator.field.discardpile[i]; let j = index" (click)="console.log('show info')">{{card.name}}</div>
 <hr>
 Defense Zone
-<div *ngFor="let card of gameoperator.field.defensezone[i]; let j = index" (click)="gameoperator.playCard('defensezone',i,j)">{{card.name}}</div>
+<div *ngFor="let card of gameoperator.field.defensezone[i]; let j = index" (click)="console.log('show info')">{{card.name}}</div>
 <hr>
 Active Area
-<div *ngFor="let card of gameoperator.field.activecards[i]; let j = index" (click)="gameoperator.playCard('activecard',i,j)">{{card.name}}</div>
+<div *ngFor="let card of gameoperator.field.activecards[i]; let j = index" (click)="console.log('show info')">{{card.name}}</div>
 </div>
+</div>
+
+
+<h1>Field {{gameoperator.gameTicket.turnIndex}} - {{gameoperator.field.actioncounts[gameoperator.gameTicket.turnIndex]}} - {{gameoperator.gameState.turnOrder[gameoperator.gameTicket.turnIndex]}} - {{gameoperator.field.hp[gameoperator.gameTicket.turnIndex]}} HP remaining</h1>
+Hand
+<div *ngFor="let card of gameoperator.field.hands[gameoperator.gameTicket.turnIndex]; let j = index" (click)="gameoperator.playCard('hand',gameoperator.gameTicket.turnIndex,j)">{{card.name}}</div>
+<hr>
+Discard Pile
+<div *ngFor="let card of gameoperator.field.discardpile[gameoperator.gameTicket.turnIndex]; let j = index" (click)="console.log('show info')">{{card.name}}</div>
+<hr>
+Defense Zone
+<div *ngFor="let card of gameoperator.field.defensezone[gameoperator.gameTicket.turnIndex]; let j = index" (click)="gameoperator.playCard('defensezone',gameoperator.gameTicket.turnIndex,j)">{{card.name}}</div>
+<hr>
+Active Area
+<div *ngFor="let card of gameoperator.field.activecards[gameoperator.gameTicket.turnIndex]; let j = index" (click)="gameoperator.playCard('activecard',gameoperator.gameTicket.turnIndex,j)">{{card.name}}</div>

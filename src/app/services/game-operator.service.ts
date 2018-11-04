@@ -70,11 +70,12 @@ export class GameOperatorService {
 
   }
 
-  joinSession(name, roomnumber){
-    this.comms.joinSession(name, roomnumber);
+  joinSession(name, sessionID){
+    this.comms.joinSession(name, sessionID);
   }
 
   startSession(){
+    console.log("starting session"+this.gameTicket.sessionID);
     this.comms.startSession(this.gameTicket.sessionID);
   }
 
@@ -84,7 +85,7 @@ export class GameOperatorService {
   }
 
   playCard(location,playerindex,cardindex){
-    this.comms.playCard(location, playerindex, cardindex);
+    this.comms.playCard(this.gameTicket.sessionID, location, playerindex, cardindex);
   }
 
   //phases//

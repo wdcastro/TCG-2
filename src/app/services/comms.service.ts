@@ -55,9 +55,9 @@ export class CommsService {
     return observable;
   }
 
-    playCard(location, playerindex, cardindex){
+    playCard(sessionID, location, playerindex, cardindex){
       console.log("playing card number "+cardindex+" from "+location);
-      var action = {location:location, playerindex:playerindex, cardindex:cardindex};
+      var action = {sessionID: sessionID, location:location, playerindex:playerindex, cardindex:cardindex};
       this.socket.emit('action',action);
     }
 
@@ -85,7 +85,8 @@ export class CommsService {
       this.socket.emit('join session', {name:name, sessionID:sessionID});
     }
 
-    startSession(session){
-      this.socket.emit('start session', session);
+    startSession(sessionID){
+      console.log("in comms.startSession + "+ sessionID);
+      this.socket.emit('start session', {sessionID:sessionID});
     }
 }
