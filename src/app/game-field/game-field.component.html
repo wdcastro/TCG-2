@@ -4,9 +4,17 @@
 <input type="button" (click)="gameoperator.joinSession(name.value,roomid.value)" value="join">
 <input type="button" (click)="gameoperator.startSession()" value="start">
 
+Current Turn: {{gameoperator.gameState.turnOrder[gameoperator.gameState.turnPlayer]}}
+Turn Number: {{gameoperator.gameState.turnCount}}
 <div *ngFor="let player of gameoperator.gameState.turnOrder; let i = index">
 <div *ngIf="i != gameoperator.gameTicket.turnIndex">
 <h1>Field {{i}} - {{gameoperator.field.actioncounts[i]}} - {{player}} - {{gameoperator.field.hp[i]}} HP remaining</h1>
+Character
+{{gameoperator.field.charactercards[i].name}}
+Weapon: {{gameoperator.field.weapons[i].name}}
+<hr>
+Deck size {{gameoperator.field.decks[i].length}}
+<hr>
 Hand
 <div *ngFor="let card of gameoperator.field.hands[i]; let j = index" (click)="console.log('show info')">{{card.name}}</div>
 <hr>
@@ -23,6 +31,12 @@ Active Area
 
 
 <h1>Field {{gameoperator.gameTicket.turnIndex}} - {{gameoperator.field.actioncounts[gameoperator.gameTicket.turnIndex]}} - {{gameoperator.gameState.turnOrder[gameoperator.gameTicket.turnIndex]}} - {{gameoperator.field.hp[gameoperator.gameTicket.turnIndex]}} HP remaining</h1>
+Character
+{{gameoperator.field.charactercards[gameoperator.gameTicket.turnIndex].name}}
+Weapon: {{gameoperator.field.weapons[gameoperator.gameTicket.turnIndex].name}}
+<hr>
+Deck size {{gameoperator.field.decks[gameoperator.gameTicket.turnIndex].length}}
+<hr>
 Hand
 <div *ngFor="let card of gameoperator.field.hands[gameoperator.gameTicket.turnIndex]; let j = index" (click)="gameoperator.playCard('hand',gameoperator.gameTicket.turnIndex,j)">{{card.name}}</div>
 <hr>
