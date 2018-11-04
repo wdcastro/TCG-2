@@ -42,13 +42,23 @@ export class CommsService {
       this.socket.on('message', (data) => {
         observer.next({type:'message', data:data});
       });
+
+      this.socket.on('game state', (data) => {
+        observer.next({type:'game state', data:data});
+      });
+
+      this.socket.on('game ticket', (data) => {
+        observer.next({type:'game ticket', data:data});
+      });
     })
 
     return observable;
   }
 
-    playHandCard(action, card){
-
+    playCard(location, playerindex, cardindex){
+      console.log("playing card number "+cardindex+" from "+location);
+      var action = {location:location, playerindex:playerindex, cardindex:cardindex};
+      this.socket.emit('action',action);
     }
 
     sendMsg(msg){
@@ -64,15 +74,15 @@ export class CommsService {
       this.socket.emit('end turn', session);
     }
 
-    newSession(session){
-      this.joinRoom(session.roomID);
-      this.socket.emit('new session', session);
+    newSession(name, sessionID){
+      this.joinRoom(sessionID);
+      this.socket.emit('new session',{name:name, sessionID:sessionID});
 
     }
 
-    joinSession(sessionID){
+    joinSession(name, sessionID){
       this.joinRoom(sessionID);
-      this.socket.emit('join session', sessionID);
+      this.socket.emit('join session', {name:name, sessionID:sessionID});
     }
 
     startSession(session){

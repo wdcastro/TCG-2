@@ -1,15 +1,21 @@
-<div *ngFor="let player of gameoperator.currentSession.turnOrder; let i = index">
+<input #roomid value="roomID">
+<input #name value="name">
+<input type="button" (click)="gameoperator.newSession(name.value,roomid.value)" value="new">
+<input type="button" (click)="gameoperator.joinSession(name.value,roomid.value)" value="join">
+<input type="button" (click)="gameoperator.startSession()" value="start">
 
-<h1>Field {{i}} - {{gameoperator.field.actioncounts[i]}} - {{player}}</h1>
+<div *ngFor="let player of gameoperator.gameState.turnOrder; let i = index">
+
+<h1>Field {{i}} - {{gameoperator.field.actioncounts[i]}} - {{player}} - {{gameoperator.field.hp[i]}} HP remaining</h1>
 Hand
-<div *ngFor="let card of gameoperator.field.hands[i]">{{card}}</div>
+<div *ngFor="let card of gameoperator.field.hands[i]; let j = index" (click)="gameoperator.playCard('hand',i,j)">{{card.name}}</div>
 <hr>
 Discard Pile
-<div *ngFor="let card of gameoperator.field.discardpile[i]">{{card}}</div>
+<div *ngFor="let card of gameoperator.field.discardpile[i]; let j = index" (click)="console.log('show info')">{{card.name}}</div>
 <hr>
 Defense Zone
-<div *ngFor="let card of gameoperator.field.defensezone[i]">{{card}}</div>
+<div *ngFor="let card of gameoperator.field.defensezone[i]; let j = index" (click)="gameoperator.playCard('defensezone',i,j)">{{card.name}}</div>
 <hr>
 Active Area
-<div *ngFor="let card of gameoperator.field.activecards[i]">{{card}}</div>
+<div *ngFor="let card of gameoperator.field.activecards[i]; let j = index" (click)="gameoperator.playCard('activecard',i,j)">{{card.name}}</div>
 </div>

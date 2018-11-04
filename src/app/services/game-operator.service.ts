@@ -11,9 +11,10 @@ import { CommsService } from './comms.service';
 })
 export class GameOperatorService {
 
-  currentSession:GameSession = new GameSession();
+  //currentSession:GameSession = new GameSession();
+  gameState;
+  gameTicket;
   field;
-
   sessionObserver;
 
   constructor(private comms:CommsService) {
@@ -41,6 +42,15 @@ export class GameOperatorService {
         case "message":
         console.log(response.data);
         break;
+        case "game state":
+        console.log(response.data);
+        this.gameState = response.data;
+        break;
+        case "game ticket":
+        console.log(response.data);
+        console.log("my index is "+response.data.turnIndex);
+        this.gameTicket = response.data;
+        break;
         default:
         console.log(response.type);
       }
@@ -50,92 +60,33 @@ export class GameOperatorService {
 
 
 
- newSession(){
+ newSession(name, sessionID){
     //start connection
     //initialize variables
-    this.currentSession = new GameSession();
+    //this.currentSession = new GameSession();
     this.field = new Field();
 
+    this.comms.newSession(name, sessionID);
 
-    //this.playerName="player a";
-    //negotiate with server
-    //on websocket
-    this.processHandDealt();
-
-    //negotiate with server
-    //on websocket
-    //this.nextTurn();
-    this.comms.newSession(this.currentSession);
-    //send next turn
   }
 
-  joinSession(roomnumber){
-    this.comms.joinSession(roomnumber);
+  joinSession(name, roomnumber){
+    this.comms.joinSession(name, roomnumber);
   }
 
   startSession(){
-    this.comms.startSession(this.currentSession);
+    this.comms.startSession(this.gameTicket.sessionID);
   }
 
   showfield(){
     console.log(this.field);
-    console.log(this.currentSession);
+    //console.log(this.currentSession);
   }
 
-  doAction(action,value){// this should only be used for animation purposes
-    //TODO: this should be negotiated on server side
-    if(this.currentSession.turnOrder[this.currentSession.turnPlayer] == this.currentSession.playerState.name){ //has authority?
-      console.log("has authority");
-      this.currentSession.playerState.actionCount--;
-      console.log("Remaining Actions: "+this.currentSession.playerState.actionCount);
-      switch(action.toLowerCase().trim()){
-        case "playhand":
-
-        //this.fieldList[this.currentSession.turnPlayer].playHandCard(value);
-        break;
-        case "playdefense":
-        //this.fieldList[this.currentSession.turnPlayer].playDefenseCard(value);
-        break;
-        case "equip":
-        break;
-        case "power":
-        break;
-        case "draw":
-        break;
-        default:
-        console.error("Unknown action "+action);
-        console.error(action);
-      }
-      if(this.currentSession.playerState.actionCount<=0){
-        this.comms.nextTurn(this.currentSession);
-      }
-    } else {
-      console.log("no authority to perform action");
-    }
+  playCard(location,playerindex,cardindex){
+    this.comms.playCard(location, playerindex, cardindex);
   }
 
   //phases//
   //beginning phase
-  executeBeginningPhase(){
-
-    //TODO: this should be negotiated on server side
-    console.log("BEGINNING PHASE");
-    //if myturn
-    //server request draw one card
-    this.drawCard();
-    this.gainActions();
-  }
-
-  drawCard(){
-
-  }
-
-  gainActions(){
-    this.currentSession.playerState.actionCount++;
-  }
-
-  processHandDealt(){
-    console.log("processing hand dealt");
-  }
-
 }
